@@ -1,0 +1,78 @@
+# Docker
+.docker/
+docker-compose.override.yml
+docker-compose.override.yaml
+*.env
+.env
+.env.*
+!.env.example
+Dockerfile.*
+!Dockerfile
+.dockerignore
+
+# Docker volumes and data
+data/
+volumes/
+*.vol
+
+# Shell scripts
+*.sh.swp
+*.sh~
+*.bash.swp
+*.bash~
+*.zsh.swp
+*.zsh~
+.bash_history
+.zsh_history
+*.log
+nohup.out
+*.pid
+
+# Ansible
+# Password and sensitive files
+sudo_pass.yml
+*pass*.yml
+*password*.yml
+*secret*.yml
+*vault*.yml
+*.retry
+ansible/*.retry
+ansible/*.pyc
+.ansible/
+inventory/*
+!inventory/example/
+group_vars/*
+!group_vars/example/
+host_vars/*
+!host_vars/example/
+vault_password_file
+ansible-vault.txt
+*.vault
+vault.yml
+vault.yaml
+
+# Ansible roles downloaded from Galaxy
+roles/*
+!roles/requirements.yml
+!roles/*/
+
+# General
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.bak
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Build and runtime artifacts
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
