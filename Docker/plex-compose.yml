@@ -1,0 +1,22 @@
+version: '3'
+services:
+  plex:
+    image: ghcr.io/linuxserver/plex
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - VERSION=${PLEX_VERSION}
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ${PLEX_CONFIG}:/config
+      - ${PLEX_TV}:/tv
+      - ${PLEX_CARTOONS}:/cartoons
+      - ${PLEX_MOVIES}:/movies
+      - ${PLEX_DOCS}:/docs
+      - ${PLEX_PICS}:/pics
+      - ${TRANSCODE_PATH}:/transcode
+    devices:
+      - /dev/dri:/dev/dri
+    restart: unless-stopped
