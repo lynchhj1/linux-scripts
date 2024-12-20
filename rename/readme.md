@@ -1,6 +1,6 @@
 # Media File Renaming Scripts
 
-A collection of Bash scripts to help standardize the naming of your media files. These scripts handle TV episodes and movies separately, ensuring consistent naming patterns across your media library.
+A collection of scripts to help standardize the naming of your media files. These scripts handle TV episodes and movies separately, ensuring consistent naming patterns across your media library.
 
 ## Scripts
 
@@ -26,10 +26,55 @@ Movie.Title.(2024).extension
 
 The script expects movies to have the year in the filename and will reformat them to the standard pattern.
 
+### Movie.Year.py
+
+A Python script that automatically adds release years to movie filenames by querying The Movie Database (TMDB) API. It handles multiple file formats and their associated subtitle files:
+
+```
+Movie.Title.(2024).extension
+```
+
+#### Features:
+- Automatic year lookup using TMDB API
+- Handles multiple video formats (mp4, mkv, avi, webm, ts)
+- Processes associated subtitle files (srt, sub, idx)
+- Preserves special edition information in curly braces
+- Interactive mode for approval of changes
+- Configurable API key through config file
+- Groups related files (video + subtitles) for consistent renaming
+- Skips files that already have years or are multi-CD
+
+#### Requirements:
+- Python 3
+- tmdbv3api library
+- TMDB API key
+
+#### Configuration:
+Create a config file at `~/.config/config.ini` with your TMDB API key:
+```ini
+[TMDB]
+api_key = your_api_key_here
+```
+
+#### Usage:
+```bash
+# Basic usage (default directory: /data/plex/Movies)
+python Movie.Year.py
+
+# Specify custom directory
+python Movie.Year.py /path/to/movies
+
+# Interactive mode
+python Movie.Year.py -i
+
+# Both custom directory and interactive mode
+python Movie.Year.py -i /path/to/movies
+```
+
 ## Features
 
-Both scripts include:
-- Dry run mode to preview changes
+All scripts include:
+- Dry run mode to preview changes (bash scripts)
 - Support for multiple video formats (mkv, mp4, avi, m4v, wmv, mov, flv)
 - Directory specification option
 - Help documentation
@@ -39,7 +84,7 @@ Both scripts include:
 
 ### General Options
 
-Both scripts support the following command-line options:
+The bash scripts support the following command-line options:
 
 ```bash
 Usage: ./script.sh [-d directory] [-n] [-h]
@@ -85,11 +130,11 @@ Another.Show.s01e02.mkv
 
 Before:
 ```
-Movie.Title.2024.1080p.mkv
-Another.Movie.2023.HDRip.mp4
+Movie Title 1080p.mkv
+Another Movie HDRip.mp4
 ```
 
-After:
+After (using Movie.Year.py):
 ```
 Movie.Title.(2024).mkv
 Another.Movie.(2023).mp4
@@ -97,15 +142,21 @@ Another.Movie.(2023).mp4
 
 ## Installation
 
-1. Download both scripts to your desired location
-2. Make them executable:
+1. Download the scripts to your desired location
+2. Make the bash scripts executable:
 ```bash
 chmod +x Episode.Rename.sh Movie.Rename.sh
 ```
+3. Install Python dependencies for Movie.Year.py:
+```bash
+pip install tmdbv3api
+```
+4. Configure your TMDB API key as described above
 
 ## Safety Features
 
-- Dry run mode (`-n`) to preview changes before making them
+- Dry run mode (`-n`) to preview changes (bash scripts)
+- Interactive mode (-i) for approval of changes (Movie.Year.py)
 - No recursive processing (only processes files in the specified directory)
 - Original filenames are displayed during renaming
 - Error handling for non-existent directories
@@ -113,6 +164,8 @@ chmod +x Episode.Rename.sh Movie.Rename.sh
 
 ## Requirements
 
-- Bash shell
+- Bash shell (for bash scripts)
 - Basic Unix utilities (sed, tr)
+- Python 3 (for Movie.Year.py)
 - Write permissions in the target directory
+- TMDB API key (for Movie.Year.py)
