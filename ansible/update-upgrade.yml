@@ -1,0 +1,12 @@
+- name: Update and Upgrade Packages
+  hosts: all
+  become: yes  # Run commands as sudo
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: dist
+

@@ -1,0 +1,8 @@
+- name: Power Off Nodes
+  hosts: all
+  become: yes
+  tasks:
+    - name: Shut down the system
+      shell: shutdown -h now
+      ignore_errors: yes  # Ignore errors since Ansible loses connection
+

@@ -1,0 +1,8 @@
+- name: Reboot Nodes
+  hosts: all
+  become: yes
+  tasks:
+    - name: Reboot the system
+      reboot:
+        reboot_timeout: 120  # Timeout for system to come back online
+
