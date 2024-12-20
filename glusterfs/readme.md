@@ -21,11 +21,6 @@ Add the following entries to `/etc/hosts`:
 10.0.1.2 gfs02
 10.0.1.3 gfs03
 10.0.1.4 gfs04
-
-10.0.2.1 gfs01
-10.0.2.2 gfs02
-10.0.2.3 gfs03
-10.0.2.4 gfs04
 ```
 
 ## Storage Setup
@@ -169,13 +164,6 @@ fi
 echo "Stopping Gluster volume gvol0..."
 if ! gluster volume stop gvol0 force; then
     echo "Failed to stop gluster volume gvol0"
-    exit 1
-fi
-
-# Check volume status
-echo "Checking volume status..."
-if ! gluster volume status gvol0; then
-    echo "Failed to get gluster volume status"
     exit 1
 fi
 
