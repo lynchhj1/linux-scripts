@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Function to display usage
 usage() {
     echo "Usage: $0 [-d directory] [-n] [-h]"
@@ -76,8 +75,13 @@ format_episode() {
     
     # Handle "SxxExx" format
     if [[ $name =~ S[0-9]{2}E[0-9]{2} ]]; then
-        series_name=$(echo "$name" | sed -E 's/^(.*\.S[0-9]{2}E[0-9]{2})\..*$/\1/')
-        new_name=$(echo "$series_name" | tr 'SE' 'se')."$extension"
+        # Get the base name up to the season/episode part
+        base_name=$(echo "$name" | sed -E 's/\.S[0-9]{2}E[0-9]{2}\..*$//')
+        
+        # Extract the season and episode numbers while converting S and E to lowercase
+        season_ep=$(echo "$name" | grep -o 'S[0-9]\{2\}E[0-9]\{2\}' | tr 'SE' 'se')
+        
+        new_name="${base_name}.${season_ep}.${extension}"
         echo "$new_name"
         return 0
     fi
