@@ -9,14 +9,20 @@ services:
       - PGID=${PGID}
       - VERSION=${PLEX_VERSION}
       - PLEX_CLAIM=${PLEX_CLAIM}
+      - LD_LIBRARY_PATH=/usr/local/lib
     volumes:
       - ${PLEX_CONFIG}:/config
       - ${PLEX_TV}:/tv
       - ${PLEX_CARTOONS}:/cartoons
       - ${PLEX_MOVIES}:/movies
+      - ${OBFUSCATED_1}:${OBFUSCATED_2}  # Obfuscated pair 1
+      - ${OBFUSCATED_3}:${OBFUSCATED_4}  # Obfuscated pair 2
       - ${PLEX_DOCS}:/docs
       - ${PLEX_PICS}:/pics
       - ${TRANSCODE_PATH}:/transcode
+      - /shared/ffmpeg:/usr/local/ffmpeg
+      - /lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu
+      - /lib64:/lib64
     devices:
       - /dev/dri:/dev/dri
     restart: unless-stopped
