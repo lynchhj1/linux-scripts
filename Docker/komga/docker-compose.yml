@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  komga:
+    image: gotson/komga
+    container_name: komga
+    environment:
+      - PUID=${PUID}         # Replace with the correct user ID
+      - PGID=${PGID}         # Replace with the correct group ID
+      - TZ=America/New_York  # Replace with your timezone
+    volumes:
+      - ${KOMGA_CONFIG}:/config     # Configuration files
+      - ${KOMGA_DATA}:/data         # Comics library
+      - /etc/timezone:/etc/timezone:ro  # Timezone (read-only)
+    ports:
+      - 25600:25600         # Maps Komga to port 25600 on your host
+    restart: unless-stopped

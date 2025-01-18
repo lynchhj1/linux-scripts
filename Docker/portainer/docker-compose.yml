@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/New_York # Replace with your timezone
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Required to manage Docker
+      - ${PORTAINER_DATA}:/data # Persistent storage for Portainer data
+    ports:
+      - 9000:9000 # Port for accessing the Portainer web UI
+    restart: unless-stopped
+
+volumes:
+  portainer_data:

@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  calibre-web:
+    image: linuxserver/calibre-web
+    container_name: calibre-web
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/New_York  # Replace with your timezone
+    volumes:
+      - ${CALIBRE_CONFIG}:/config    # Configuration files and database storage
+      - ${CALIBRE_DATA}:/books    # Path to your Calibre library
+    ports:
+      - 8083:8083            # Maps Calibre Web to port 8083 on your host
+    restart: unless-stopped
+

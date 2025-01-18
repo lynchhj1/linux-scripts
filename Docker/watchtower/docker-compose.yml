@@ -8,4 +8,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
-    command: plex  # Only updates the plex container
+    command: plex calibre-web komga heimdall  # Updates Plex, Calibre, Komga, and Heimdall containers
