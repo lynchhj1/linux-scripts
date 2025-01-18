@@ -19,7 +19,7 @@ This script synchronizes media files between servers using rsync. It handles TV 
 
 Basic usage:
 ```bash
-./media-sync.sh
+./rsync.sh
 ```
 
 Options:
@@ -39,7 +39,7 @@ Edit `config.env` to set:
 
 The script expects the following directory structure:
 ```
-SOURCE_BASE/
+TARGET_BASE/
 ├── TV/
 ├── Cartoons/
 └── Movies/
