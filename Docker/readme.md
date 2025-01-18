@@ -1,159 +1,129 @@
-# Docker Services Setup
+# Linux Scripts
 
-This repository contains Docker Compose configurations for running Plex Media Server and Watchtower services.
+A collection of scripts I use to manage my personal servers.
+
+## Repository Structure
+
+```plaintext
+linux-scripts/
+├── Docker/
+│   ├── calibreweb/
+│   │   ├── docker-compose.yml
+│   │   └── README.md
+│   ├── komga/
+│   │   ├── docker-compose.yml
+│   │   └── README.md
+│   └── portainer/
+│       ├── docker-compose.yml
+│       └── README.md
+└── README.md
+```
+
+Each subdirectory under `Docker/` contains the necessary `docker-compose.yml` files and individual `README.md` files for setting up specific services.
 
 ## Services
 
-### Plex Media Server
-Media server for streaming your digital media library across devices.
+### Calibre Web
+- **Directory**: `Docker/calibreweb/`
+- **Description**: Provides a web-based interface for browsing, reading, and managing your eBook collection.
+- **Setup**:
+  1. Navigate to the `calibreweb` directory:
+     ```bash
+     cd Docker/calibreweb
+     ```
+  2. Review the `docker-compose.yml` file to ensure volume paths and environment variables are correctly set.
+  3. Start the service:
+     ```bash
+     docker-compose up -d
+     ```
+  4. Access the web UI at `http://<your-server-ip>:8083`.
 
-### Watchtower
-Automatic Docker container updater that checks for updated images and refreshes your containers.
+### Komga
+- **Directory**: `Docker/komga/`
+- **Description**: A media server for your comics, mangas, and digital books.
+- **Setup**:
+  1. Navigate to the `komga` directory:
+     ```bash
+     cd Docker/komga
+     ```
+  2. Review the `docker-compose.yml` file to ensure volume paths and environment variables are correctly set.
+  3. Start the service:
+     ```bash
+     docker-compose up -d
+     ```
+  4. Access the web UI at `http://<your-server-ip>:25600`.
 
-## Prerequisites
+### Portainer
+- **Directory**: `Docker/portainer/`
+- **Description**: A lightweight management UI which allows you to easily manage your Docker environments.
+- **Setup**:
+  1. Navigate to the `portainer` directory:
+     ```bash
+     cd Docker/portainer
+     ```
+  2. Review the `docker-compose.yml` file to ensure volume paths and environment variables are correctly set.
+  3. Start the service:
+     ```bash
+     docker-compose up -d
+     ```
+  4. Access the web UI at `http://<your-server-ip>:9000`.
 
-- Docker installed
-- Docker Compose installed
-- Sufficient disk space for media storage
-- A [Plex claim token](https://plex.tv/claim) (for first-time Plex setup only)
+## Environment Variables
 
-## Configuration
+Each service utilizes environment variables for configuration. It's recommended to create a `.env` file in each service's directory with the necessary variables. For example:
 
-### 1. Plex Configuration
-Copy the example environment file:
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your settings:
 ```env
 PUID=1000
 PGID=1000
-PLEX_VERSION=latest
-PLEX_CLAIM=claim-xxxxxxxxxxxxx  # Only needed for first setup
-
-# Path configurations
-PLEX_CONFIG=/data/plex/config
-PLEX_TV=/data/plex/TV
-PLEX_CARTOONS=/data/plex/Cartoons
-PLEX_MOVIES=/data/plex/Movies
-PLEX_DOCS=/data/plex/Docs
-PLEX_PICS=/data/plex/Pics
-TRANSCODE_PATH=/dev/shm
+TZ=America/New_York
+CALIBRE_CONFIG=/path/to/calibre/config
+CALIBRE_DATA=/path/to/calibre/data
+KOMGA_CONFIG=/path/to/komga/config
+KOMGA_DATA=/path/to/komga/data
+PORTAINER_DATA=/path/to/portainer/data
 ```
 
-### 2. Watchtower Configuration
-No additional configuration needed. By default, it's set to update the Plex container at 2 AM daily.
+Ensure that the paths and values are adjusted to match your system's configuration.
+
+## Prerequisites
+
+- **Docker**: Ensure Docker is installed on your system. You can install Docker using the official installation script:
+
+  ```bash
+  curl -fsSL https://get.docker.com -o get-docker.sh
+  sh get-docker.sh
+  ```
+
+- **Docker Compose**: Verify that Docker Compose is installed. If not, follow the official installation guide.
 
 ## Usage
 
-### Starting Services
+1. Clone the repository:
 
-Start Plex:
-```bash
-docker-compose -f plex-compose.yml up -d
-```
+   ```bash
+   git clone https://github.com/lynchhj1/linux-scripts.git
+   ```
 
-Start Watchtower:
-```bash
-docker-compose -f watchtower-compose.yml up -d
-```
+2. Navigate to the desired service directory, e.g., for Calibre Web:
 
-Start both services:
-```bash
-docker-compose -f plex-compose.yml -f watchtower-compose.yml up -d
-```
+   ```bash
+   cd linux-scripts/Docker/calibreweb
+   ```
 
-### Stopping Services
+3. Create and configure the `.env` file with the necessary environment variables.
 
-Stop Plex:
-```bash
-docker-compose -f plex-compose.yml down
-```
+4. Start the service using Docker Compose:
 
-Stop Watchtower:
-```bash
-docker-compose -f watchtower-compose.yml down
-```
+   ```bash
+   docker-compose up -d
+   ```
 
-Stop both services:
-```bash
-docker-compose -f plex-compose.yml -f watchtower-compose.yml down
-```
+5. Access the service's web interface using the URLs provided in the Services section.
 
-### Checking Service Status
-```bash
-# View all services status
-docker-compose -f plex-compose.yml -f watchtower-compose.yml ps
+## Contributing
 
-# View status of specific service
-docker-compose -f plex-compose.yml ps  # for Plex
-docker-compose -f watchtower-compose.yml ps  # for Watchtower
+Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your contributions align with the repository's structure and guidelines.
 
-# View logs for Plex
-docker-compose -f plex-compose.yml logs plex
+## License
 
-# View logs for Watchtower
-docker-compose -f watchtower-compose.yml logs watchtower
-```
-
-## Directory Structure
-```
-.
-├── README.md
-├── .env                    # Environment variables (git ignored)
-├── .env.example           # Example environment file
-├── plex-compose.yml       # Plex Docker Compose configuration
-└── watchtower-compose.yml # Watchtower Docker Compose configuration
-```
-
-## Maintenance
-
-### Update Containers
-Watchtower will automatically update the Plex container daily at 2 AM. To manually update:
-```bash
-# Update specific service
-docker-compose -f plex-compose.yml pull
-docker-compose -f plex-compose.yml up -d
-
-# Update all services
-docker-compose -f plex-compose.yml -f watchtower-compose.yml pull
-docker-compose -f plex-compose.yml -f watchtower-compose.yml up -d
-```
-
-### View Logs
-```bash
-# Follow Plex logs
-docker-compose -f plex-compose.yml logs -f plex
-
-# Follow Watchtower logs
-docker-compose -f watchtower-compose.yml logs -f watchtower
-```
-
-### Backup
-Before making any changes, backup your Plex configuration:
-```bash
-sudo cp -r /data/plex/config /data/plex/config.backup
-```
-
-## Troubleshooting
-
-1. **Container Won't Start**
-   - Check logs: `docker-compose -f [compose-file] logs`
-   - Ensure no port conflicts: `docker ps`
-   - Verify permissions on mounted volumes
-
-2. **Plex Not Accessible**
-   - Verify network mode is host
-   - Check Plex server settings
-   - Ensure firewall allows Plex ports (32400)
-
-3. **Media Not Showing**
-   - Verify volume mount paths
-   - Check file permissions
-   - Scan library in Plex
-
-4. **Watchtower Not Updating**
-   - Check Watchtower logs
-   - Verify docker.sock mount
-   - Confirm cron schedule setting
+This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
