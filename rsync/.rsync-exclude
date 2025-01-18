@@ -1,0 +1,17 @@
+.git/
+.caltrash/
+cache/
+Library/Application Support/Plex Media Server/Media/
+Library/Application Support/Plex Media Server/Cache/
+Library/Application Support/Plex Media Server/Logs/
+Library/Application Support/Plex Media Server/Crash Reports/
+Library/Application Support/Plex Media Server/Transcoding Temporary Files/
+Jeopardy (1984)/
+Jeopardy/
+Wheel of Fortune (1975)/
+The Rookie (2018)/
+*.sh
+*.env
+*.ini
+*.config
+.bash_history

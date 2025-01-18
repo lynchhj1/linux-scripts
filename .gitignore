@@ -28,6 +28,7 @@ volumes/
 nohup.out
 *.pid
 config.env
+config2.env
 
 # Ansible
 # Password and sensitive files
