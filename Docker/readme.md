@@ -119,11 +119,3 @@ Ensure that the paths and values are adjusted to match your system's configurati
    ```
 
 5. Access the service's web interface using the URLs provided in the Services section.
-
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your contributions align with the repository's structure and guidelines.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](../LICENSE) file for details.
