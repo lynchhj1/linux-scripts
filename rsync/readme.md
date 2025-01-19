@@ -39,15 +39,14 @@ Edit `config.env` to set:
 
 The script expects the following directory structure:
 ```
-TARGET_BASE/
+SOURCE_BASE/
 ├── TV/
 ├── Cartoons/
+└── Docs/
+└── Books/
+└── Comics/
+└── Audio.Books/
 └── Movies/
-    ├── A-E/
-    ├── F-J/
-    ├── K-O/
-    ├── P-T/
-    └── U-Z/
 ```
 
 ## Contributing
