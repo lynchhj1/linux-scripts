@@ -2,6 +2,7 @@
 
 # Configuration file
 CONFIG_FILE="config.env"
+EXCLUDE_FILE=".rsync-exclude"
 
 # Load configuration from file if it exists
 if [ -f "$CONFIG_FILE" ]; then
@@ -69,7 +70,7 @@ rsync_movies_pattern() {
     log "Syncing movie files matching $pattern to Movies/$target_dir"
     
     # Build rsync command based on dry run flag
-    local cmd="rsync -av --recursive --ignore-existing --info=progress2"
+    local cmd="rsync -av --recursive --ignore-existing --info=progress2 --exclude-from=$EXCLUDE_FILE"
     if [ "$DRY_RUN" = true ]; then
         cmd="$cmd --dry-run"
     fi
@@ -84,7 +85,7 @@ rsync_directory() {
     log "Syncing entire $dir_name directory"
     
     # Build rsync command based on dry run flag
-    local cmd="rsync -av --recursive --ignore-existing --info=progress2"
+    local cmd="rsync -av --recursive --ignore-existing --info=progress2 --exclude-from=$EXCLUDE_FILE"
     if [ "$DRY_RUN" = true ]; then
         cmd="$cmd --dry-run"
     fi
@@ -101,6 +102,18 @@ rsync_directory "TV"
 
 log "=== Syncing Cartoons ==="
 rsync_directory "Cartoons"
+
+log "=== Syncing Documentaries ==="
+rsync_directory "Docs"
+
+log "=== Syncing Books ==="
+rsync_directory "Books"
+
+log "=== Syncing Comics ==="
+rsync_directory "Comics"
+
+log "=== Syncing Audio Books ==="
+rsync_directory "Audio.Books"
 
 # Then sync Movies by alphabetical ranges
 log "=== Syncing Movies ==="
@@ -126,3 +139,4 @@ log "Syncing U-Z files..."
 rsync_movies_pattern "[U-Zu-z]*" "U-Z"
 
 log "All transfers completed!"
+
