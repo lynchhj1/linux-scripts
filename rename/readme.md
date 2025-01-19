@@ -26,6 +26,45 @@ Movie.Title.(2024).extension
 
 The script expects movies to have the year in the filename and will reformat them to the standard pattern.
 
+### Organize.Movies.sh
+
+Organizes movie files into individual folders based on their names. The script creates a folder for each movie using its name and year, then moves the movie file and any related files (like subtitles) into that folder.
+
+#### Features:
+- Creates folders in the format: `Movie Title (2024)`
+- Moves all related files with the same base name
+- Support for dry run mode to preview changes
+- Handles spaces and special characters in filenames
+- Non-recursive (only processes files in the specified directory)
+
+#### Usage:
+```bash
+# Basic usage
+./Organize.Movies.sh /path/to/movies
+
+# Dry run to preview changes
+./Organize.Movies.sh /path/to/movies -n
+```
+
+#### Example:
+Before:
+```
+/movies/
+  The.Matrix.(1999).mkv
+  The.Matrix.(1999).srt
+  Inception.(2010).mp4
+```
+
+After:
+```
+/movies/
+  The Matrix (1999)/
+    The.Matrix.(1999).mkv
+    The.Matrix.(1999).srt
+  Inception (2010)/
+    Inception.(2010).mp4
+```
+
 ### Movie.Year.py
 
 A Python script that automatically adds release years to movie filenames by querying The Movie Database (TMDB) API. It handles multiple file formats and their associated subtitle files:
@@ -145,7 +184,7 @@ Another.Movie.(2023).mp4
 1. Download the scripts to your desired location
 2. Make the bash scripts executable:
 ```bash
-chmod +x Episode.Rename.sh Movie.Rename.sh
+chmod +x Episode.Rename.sh Movie.Rename.sh Organize.Movies.sh
 ```
 3. Install Python dependencies for Movie.Year.py:
 ```bash
