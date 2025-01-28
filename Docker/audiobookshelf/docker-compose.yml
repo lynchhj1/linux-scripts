@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    container_name: audiobookshelf
+    environment:
+      - TZ=America/New_York
+      - AUDIOBOOKSHELF_UID=${PUID}
+      - AUDIOBOOKSHELF_GID=${PGID}
+    volumes:
+      - ${AUDIOBOOKSHELF_CONFIG}:/config        # Path for Audiobookshelf configuration
+      - ${AUDIOBOOKSHELF_METADATA}:/metadata        # Path for Audiobookshelf configuration
+      - ${AUDIOBOOKSHELF_AUDIOBOOKS}:/audiobooks  # Path to your audiobooks library
+      - ${AUDIOBOOKSHELF_PODCASTS}:/podcasts    # Optional: Path for podcasts
+    ports:
+      - 13378:80  # Audiobookshelf web UI port
+    restart: unless-stopped

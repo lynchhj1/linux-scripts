@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=America/New_York # Replace with your timezone
+    volumes:
+      - ${PROWLARR_CONFIG}:/config # Replace with the path to store Prowlarr configuration data
+    ports:
+      - 9696:9696 # Web UI port
+    restart: unless-stopped
