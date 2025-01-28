@@ -1,21 +1,37 @@
 #!/bin/bash
-# Usage: ./organize_movies.sh [directory] [-n]
+
+# Function to display usage
+usage() {
+    echo "Usage: $0 [-d directory] [-n] [-h]"
+    echo "Options:"
+    echo "  -d directory  : Directory to process (default: current directory)"
+    echo "  -n           : Dry run (show what would be done without making changes)"
+    echo "  -h           : Show this help message"
+    exit 1
+}
 
 # Variables
+TARGET_DIR="."
 DRY_RUN=false
-TARGET_DIR="$1"
 
-# Check if dry-run flag is set
-if [[ "$2" == "-n" ]]; then
-    DRY_RUN=true
-    echo "Dry-run mode enabled. No changes will be made."
-fi
-
-# Check if a directory is provided
-if [[ -z "$TARGET_DIR" ]]; then
-    echo "Usage: $0 [directory] [-n]"
-    exit 1
-fi
+# Parse command line arguments
+while getopts "d:nh" opt; do
+    case $opt in
+        d)
+            TARGET_DIR="${OPTARG//\\/ }"  # Replace backslashes with spaces
+            ;;
+        n)
+            DRY_RUN=true
+            echo "*** DRY RUN MODE - No files will be renamed ***"
+            ;;
+        h)
+            usage
+            ;;
+        \?)
+            usage
+            ;;
+    esac
+done
 
 # Check if the provided directory exists
 if [[ ! -d "$TARGET_DIR" ]]; then
