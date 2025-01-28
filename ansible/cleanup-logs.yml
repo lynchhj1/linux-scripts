@@ -1,0 +1,52 @@
+---
+- name: Cleanup logs on Gluster servers
+  hosts: all  # Make sure this matches your inventory group name
+  become: yes  # This enables sudo
+  
+  tasks:
+    - name: Remove numbered and gzipped log files
+      shell: rm rm -f /var/log/*.log.[0-9] /var/log/*.log.[0-9][0-9] /var/log/*.log.*.gz 2> /dev/null
+      ignore_errors: yes  # Continue if some files don't exist
+
+    - name: Remove journal files
+      file:
+        path: /var/log/journal
+        state: absent
+
+    - name: Remove gzipped log files recursively
+      find:
+        paths: /var/log
+        patterns: "*.gz"
+        recurse: yes
+        file_type: file
+      register: gz_files
+
+    - name: Delete found gzipped files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ gz_files.files }}"
+
+    - name: Remove .old log files recursively
+      find:
+        paths: /var/log
+        patterns: "*.old"
+        recurse: yes
+        file_type: file
+      register: old_files
+
+    - name: Delete found .old files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ old_files.files }}"
+
+    - name: Truncate specific log files
+      command: truncate -s 0 {{ item }}
+      with_items:
+        - /var/log/dpkg.log
+        - /var/log/syslog
+
+    - name: Clean apt cache
+      apt:
+        clean: yes
